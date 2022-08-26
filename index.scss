@@ -17,4 +17,8 @@ body {
     height: 50px;
     color: #fff;
     border: none;
+    &:hover {
+        cursor: pointer;
+        background: rgb(0, 89, 0);
+    }
 }

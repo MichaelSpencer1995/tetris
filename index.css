@@ -3,8 +3,8 @@ body {
 }
 
 .gameboard {
-  width: 500px;
-  height: 750px;
+  height: 0px;
+  width: 0px;
   background: #ccc;
   margin: 0 auto;
   margin-top: 70px;
@@ -25,4 +25,13 @@ body {
   height: 50px;
   color: #fff;
   border: none;
+}
+
+#start:hover {
+  cursor: pointer;
+  background: #005900;
+}
+
+.box-main {
+  box-shadow: inset 0px 0px 0px 1px #fff;
 }
