@@ -10,8 +10,8 @@ document.addEventListener('keydown', (e) => {
             return
         } else {
             aHeld = true
-            if(legalMove('leftBound')) {
-                clearPrevPosInModel()
+            if(legalMove('left')) {
+                setPrevPosInModel()
                 model.currentPiece.coors.forEach(coorPair => {
                     coorPair.x--
                 })
@@ -25,8 +25,8 @@ document.addEventListener('keydown', (e) => {
             return
         } else {
             dHeld = true
-            if(legalMove('rightBound')) {
-                clearPrevPosInModel()
+            if(legalMove('right')) {
+                setPrevPosInModel()
                 model.currentPiece.coors.forEach(coorPair => {
                     coorPair.x++
                 })

@@ -1,10 +1,10 @@
 const settings = {
     dimensions: {
-        unit: 30,
-        width: 13,
-        height: 20,
+        unit: 50,
+        width: 12,
+        height: 13,
     },
-    speed: 750
+    speed: 350
 }
 
 let origin = {

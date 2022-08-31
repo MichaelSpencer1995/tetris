@@ -23,7 +23,7 @@ function launch() {
     initModel()
     initDom()
     spawnNewPeice()
-    main()
+    applyGravityToPiece()
 }
 
 function initModel() {
@@ -63,7 +63,8 @@ function initDom() {
 }
 
 function getDomBox(box) {
-    return document.getElementsByClassName('col')[box.x].children[box.y]
+    const $el = document.getElementsByClassName('col')[box.x].children[box.y]
+    if($el){return $el}
 }
 
 function draw() {
@@ -79,21 +80,33 @@ function spawnNewPeice() {
     //     gameover()
     // })
     const randomPiece = pieces[Math.floor(Math.random() * (1 + 3))]
-    model.currentPiece.coors = randomPiece
-    drawCurrentPiece()
+    randomPiece.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.coors.push(val)
+    })
+    console.log(model.currentPiece)
+    drawCurrentPiece()  
 }
 
-
-function main() {
-    mainInterval = setInterval(applyGravityToPiece, settings.speed)
-}
 
 function applyGravityToPiece() {
-    model.currentPiece.prevCoors = []
-    clearPrevPosInModel()
-    model.currentPiece.coors.forEach(coorPair => coorPair.y++)
-    eraseCurrentPiecePrevPos()
-    drawCurrentPiece()
+    mainInterval = setInterval(movePieceDownOneUnit, settings.speed)
+}
+
+function movePieceDownOneUnit() {
+    if(legalMove('down')) {
+        model.currentPiece.prevCoors = []
+        setPrevPosInModel()
+        model.currentPiece.coors.forEach(coorPair => coorPair.y++)
+        eraseCurrentPiecePrevPos()
+        drawCurrentPiece()
+    } else {
+        model.currentPiece.coors.forEach(coorPair => getDomBox(coorPair).style.background = 'red')
+        // clearInterval(mainInterval)
+        model.currentPiece.coors = []
+        model.currentPiece.prevCoors = []
+        spawnNewPeice()
+    }
 }
 
 
@@ -111,25 +124,52 @@ function eraseCurrentPiecePrevPos() {
 
 function legalMove(bound) {
     let cnd = true
-    if(bound == 'leftBound') {
+    if(bound == 'left') {
         model.currentPiece.coors.forEach(coorPair => {
-            if(coorPair.x - 1 < 0) {
+            if(coorPair.x - 1 < 0 ) {
                 cnd = false
-            } 
+            } else if(getDomBox(
+                {
+                    x: coorPair.x - 1,
+                    y: coorPair.y
+                }
+            ).style.background == 'red') {
+                cnd = false
+            }
         })
-        return cnd
     }
-    if(bound == 'rightBound') {
+    if(bound == 'right') {
         model.currentPiece.coors.forEach(coorPair => {
             if(coorPair.x + 1 >= settings.dimensions.width) {
                 cnd = false
-            } 
+            } else if(getDomBox(
+                {
+                    x: coorPair.x + 1,
+                    y: coorPair.y
+                }
+            ).style.background == 'red') {
+                cnd = false
+            }
         })
-        return cnd
     }
+    if(bound == 'down') {
+        model.currentPiece.coors.forEach(coorPair => {
+            if(coorPair.y + 1 >= settings.dimensions.height) {
+                cnd = false
+            } else if(getDomBox(
+                {
+                    x: coorPair.x,
+                    y: coorPair.y + 1
+                }
+            ).style.background == 'red') {
+                cnd = false
+            }
+        })
+    }
+    return cnd
 }
 
-function clearPrevPosInModel() {
+function setPrevPosInModel() {
     model.currentPiece.coors.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.prevCoors.push(val)
