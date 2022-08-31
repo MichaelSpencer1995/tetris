@@ -1,5 +1,3 @@
-const $start = document.getElementById('start')
-const $gameBoard = document.getElementsByClassName('gameboard')[0]
 const model = {
     boxes: [],
     currentPiece: {
@@ -25,7 +23,6 @@ function launch() {
     initModel()
     initDom()
     spawnNewPeice()
-    drawCurrentPiece()
     main()
 }
 
@@ -77,37 +74,24 @@ function draw() {
     })
 }
 
-
-
 function spawnNewPeice() {
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
     const randomPiece = pieces[Math.floor(Math.random() * (1 + 3))]
     model.currentPiece.coors = randomPiece
-    // model.currentPiece.forEach(coorPair => {
-    //     model.boxes.forEach(box => {
-    //         if(coorPair.x == box.x && coorPair.y == box.y) {
-    //             box.color = 'blue'
-    //         }
-    //     })
-    // })
+    drawCurrentPiece()
 }
 
-let mainInterval
+
 function main() {
     mainInterval = setInterval(applyGravityToPiece, settings.speed)
-    // draw()
 }
 
 function applyGravityToPiece() {
     model.currentPiece.prevCoors = []
-    model.currentPiece.coors.forEach((v) => {
-        const val = (typeof v === 'object') ? Object.assign({}, v) : v
-        model.currentPiece.prevCoors.push(val)
-    })
+    clearPrevPosInModel()
     model.currentPiece.coors.forEach(coorPair => coorPair.y++)
-    console.log(model.currentPiece)
     eraseCurrentPiecePrevPos()
     drawCurrentPiece()
 }
@@ -122,6 +106,33 @@ function drawCurrentPiece() {
 function eraseCurrentPiecePrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
         getDomBox(coorPair).style.background = 'none'
+    })
+}
+
+function legalMove(bound) {
+    let cnd = true
+    if(bound == 'leftBound') {
+        model.currentPiece.coors.forEach(coorPair => {
+            if(coorPair.x - 1 < 0) {
+                cnd = false
+            } 
+        })
+        return cnd
+    }
+    if(bound == 'rightBound') {
+        model.currentPiece.coors.forEach(coorPair => {
+            if(coorPair.x + 1 >= settings.dimensions.width) {
+                cnd = false
+            } 
+        })
+        return cnd
+    }
+}
+
+function clearPrevPosInModel() {
+    model.currentPiece.coors.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.prevCoors.push(val)
     })
 }
 
