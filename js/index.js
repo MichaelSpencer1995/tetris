@@ -3,7 +3,8 @@ const $gameBoard = document.getElementsByClassName('gameboard')[0]
 const model = {
     boxes: [],
     currentPiece: {
-        coors: []
+        coors: [],
+        prevCoors: []
     }
 }
 $start.addEventListener('click', () => {
@@ -24,8 +25,8 @@ function launch() {
     initModel()
     initDom()
     spawnNewPeice()
-    //begin anmation function which draws so dont draw here
-    draw()
+    drawCurrentPiece()
+    main()
 }
 
 function initModel() {
@@ -83,13 +84,44 @@ function spawnNewPeice() {
     //     gameover()
     // })
     const randomPiece = pieces[Math.floor(Math.random() * (1 + 3))]
-    randomPiece.forEach(coorPair => {
-        console.log(coorPair)
-        model.boxes.forEach(box => {
-            if(coorPair.x == box.x && coorPair.y == box.y) {
-                box.color = 'blue'
-            }
-        })
+    model.currentPiece.coors = randomPiece
+    // model.currentPiece.forEach(coorPair => {
+    //     model.boxes.forEach(box => {
+    //         if(coorPair.x == box.x && coorPair.y == box.y) {
+    //             box.color = 'blue'
+    //         }
+    //     })
+    // })
+}
+
+let mainInterval
+function main() {
+    mainInterval = setInterval(applyGravityToPiece, settings.speed)
+    // draw()
+}
+
+function applyGravityToPiece() {
+    model.currentPiece.prevCoors = []
+    model.currentPiece.coors.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.prevCoors.push(val)
+    })
+    model.currentPiece.coors.forEach(coorPair => coorPair.y++)
+    console.log(model.currentPiece)
+    eraseCurrentPiecePrevPos()
+    drawCurrentPiece()
+}
+
+
+function drawCurrentPiece() {
+    model.currentPiece.coors.forEach(coorPair => {
+        getDomBox(coorPair).style.background = 'blue'
+    })
+}
+
+function eraseCurrentPiecePrevPos() {
+    model.currentPiece.prevCoors.forEach(coorPair => {
+        getDomBox(coorPair).style.background = 'none'
     })
 }
 

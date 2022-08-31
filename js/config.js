@@ -3,7 +3,8 @@ const settings = {
         unit: 30,
         width: 13,
         height: 20,
-    }
+    },
+    speed: 750
 }
 
 let origin = {
