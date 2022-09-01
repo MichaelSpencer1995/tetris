@@ -1,14 +1,14 @@
 const model = {
     boxes: [],
     currentPiece: {
+        type: null,
         coors: [],
-        prevCoors: []
+        prevCoors: [],
     }
 }
 $start.addEventListener('click', () => {
     if(settings.dimensions.width < 5 || settings.dimensions.height < 7) {
-        console.error('invalid gameboard dimensions')
-        return
+        return console.error('invalid gameboard dimensions')
     }
     $start.style.display = 'none'
     launch()
@@ -29,17 +29,14 @@ function launch() {
 function initModel() {
     const cols = settings.dimensions.width
     const rows = settings.dimensions.height
-    let id = 0
-    for(let i = 0; i < rows; i++) {
-        for(let j = 0; j < cols; j++) {
+    for(let i = 0; i < cols; i++) {
+        for(let j = 0; j < rows; j++) {
             let box = {
-                id: id,
                 x: i,
                 y: j,
-                color: null
+                set: false
             }
             model.boxes.push(box)
-            id++
         }
     }
 }
@@ -60,11 +57,22 @@ function initDom() {
         }
         $gameBoard.appendChild($col)
     }
+    $cols = document.getElementsByClassName('col')
 }
 
-function getDomBox(box) {
-    const $el = document.getElementsByClassName('col')[box.x].children[box.y]
+function getDomBox(coorPair) {
+    const $el = document.getElementsByClassName('col')[coorPair.x].children[coorPair.y]
     if($el){return $el}
+}
+
+function getModelBox(coorPair) {
+    let match
+    model.boxes.forEach(box => {
+        if(box.x == coorPair.x && box.y == coorPair.y) {
+            match = box
+        }
+    })
+    return match
 }
 
 function draw() {
@@ -79,12 +87,13 @@ function spawnNewPeice() {
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
-    const randomPiece = pieces[Math.floor(Math.random() * (1 + 3))]
+    const ranIndx = Math.floor(Math.random() * pieces.length)
+    const randomPiece = pieces[ranIndx]
+    model.currentPiece.type = ranIndx
     randomPiece.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
     })
-    console.log(model.currentPiece)
     drawCurrentPiece()  
 }
 
@@ -101,12 +110,19 @@ function movePieceDownOneUnit() {
         eraseCurrentPiecePrevPos()
         drawCurrentPiece()
     } else {
-        model.currentPiece.coors.forEach(coorPair => getDomBox(coorPair).style.background = 'red')
-        // clearInterval(mainInterval)
+        model.currentPiece.coors.forEach(coorPair => {
+            getDomBox(coorPair).style.background = 'red'
+            getModelBox(coorPair).set = true
+        })
+        checkForScoringRow()
         model.currentPiece.coors = []
         model.currentPiece.prevCoors = []
         spawnNewPeice()
     }
+}
+
+function checkForScoringRow() {
+    let potentialScorers = model.boxes.filter(box => box.set)
 }
 
 
