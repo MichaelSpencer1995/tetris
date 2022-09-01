@@ -1,10 +1,12 @@
 const settings = {
+    dev: true,
     dimensions: {
         unit: 40,
         width: 11,
         height: 16,
     },
-    speed: 300
+    speed: 300,
+    devPiece: 1
 }
 
 let origin = {

@@ -71,7 +71,7 @@ function spawnNewPeice() {
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
-    const ranIndx = Math.floor(Math.random() * pieces.length)
+    const ranIndx = settings.dev ? settings.devPiece : Math.floor(Math.random() * pieces.length)
     const randomPiece = pieces[ranIndx]
     model.currentPiece.type = ranIndx
     randomPiece.forEach((v) => {
@@ -120,7 +120,7 @@ function decreaseVelocity() {
 
 function rotatePiece() {
     console.log('rotate piece')
-    if(currentPiece.type == 0) {
+    if(currentPiece.type == 1) {
 
     }
 }
