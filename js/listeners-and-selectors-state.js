@@ -12,7 +12,9 @@ const model = {
         type: null,
         coors: [],
         prevCoors: [],
-    }
+    },
+    curY: 0,
+    curX: settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
 }
 
 $start.addEventListener('click', () => {

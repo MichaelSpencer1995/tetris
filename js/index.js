@@ -67,13 +67,20 @@ function draw() {
     })
 }
 
+function resetOrigin() {
+    model.curY = 0
+    model.curX = settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
+}
+
 function spawnNewPeice() {
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
+    resetOrigin()
     const ranIndx = settings.dev ? settings.devPiece : Math.floor(Math.random() * pieces.length)
-    const randomPiece = pieces[ranIndx]
+    const randomPiece = pieces[ranIndx].rotData.rots[0]()
     model.currentPiece.type = ranIndx
+    console.log(randomPiece)
     randomPiece.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
@@ -126,10 +133,54 @@ function decreaseVelocity() {
 }
 
 function rotatePiece() {
-    console.log('rotate piece')
-    if(currentPiece.type == 1) {
-
+    setCurXandYofPiece()
+    setPrevPosInModel()
+    if(model.currentPiece.type == 1) {
+        model.currentPiece.coors = []
+        const rot = pieces[1].rotData.rots[pieces[1].rotData.rot]()
+        // check if rot0 valid rotation can be made to be
+        rot.forEach((v) => {
+            const val = (typeof v === 'object') ? Object.assign({}, v) : v
+            model.currentPiece.coors.push(val)
+        })
+        // this cycles through the rots
+        if(pieces[1].rotData.rot + 1 > pieces[1].rotData.rots.length - 1){
+            pieces[1].rotData.rot = 0
+        } else {
+            pieces[1].rotData.rot++
+        }
     }
+    eraseCurrentPiecePrevPos()
+    drawCurrentPiece()
+}
+
+function setCurXandYofPiece() {
+    // these determine a a center for which the piece to be rotated around, incase I ever want to add more intense pieces
+    // instead of hard coding the centers for each piece
+    let lowYBound = 0
+    let leftXBound, rightXBound, xAvg
+
+    model.currentPiece.coors.forEach((coorPair, i) => {
+        if(coorPair.y > lowYBound) {
+            lowYBound = coorPair.y
+        }
+        if(i == 0) {
+            leftXBound = coorPair.x
+            rightXBound = coorPair.x
+        } else {
+            if(coorPair.x < leftXBound) {
+                leftXBound = coorPair.x
+            }
+            if(coorPair.x > rightXBound) {
+                rightXBound = coorPair.x
+            }
+        }
+    })
+
+    xAvg = (rightXBound + leftXBound) % 2 == 0 ? (rightXBound + leftXBound) / 2 : (rightXBound + leftXBound) / 2 + 0.5
+
+    model.curY = lowYBound
+    model.curX = xAvg
 }
 
 function drawCurrentPiece() {
