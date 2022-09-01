@@ -72,11 +72,16 @@ function resetOrigin() {
     model.curX = settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
 }
 
+function resetRotationIndexes() {
+    pieces.forEach(piece => piece.rotData.rot = 0)
+}
+
 function spawnNewPeice() {
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
     resetOrigin()
+    resetRotationIndexes()
     const ranIndx = settings.dev ? settings.devPiece : Math.floor(Math.random() * pieces.length)
     const randomPiece = pieces[ranIndx].rotData.rots[0]()
     model.currentPiece.type = ranIndx
@@ -135,20 +140,20 @@ function decreaseVelocity() {
 function rotatePiece() {
     setCurXandYofPiece()
     setPrevPosInModel()
-    if(model.currentPiece.type == 1) {
+    // this cycles through the rots in the matrix
+    if(pieces[0].rotData.rot + 1 > pieces[0].rotData.rots.length - 1) {
+        pieces[0].rotData.rot = 0
+    } else {
+        pieces[0].rotData.rot++
+    }
+    if(model.currentPiece.type == 0) {
         model.currentPiece.coors = []
-        const rot = pieces[1].rotData.rots[pieces[1].rotData.rot]()
+        const rot = pieces[0].rotData.rots[pieces[0].rotData.rot]()
         // check if rot0 valid rotation can be made to be
         rot.forEach((v) => {
             const val = (typeof v === 'object') ? Object.assign({}, v) : v
             model.currentPiece.coors.push(val)
         })
-        // this cycles through the rots
-        if(pieces[1].rotData.rot + 1 > pieces[1].rotData.rots.length - 1){
-            pieces[1].rotData.rot = 0
-        } else {
-            pieces[1].rotData.rot++
-        }
     }
     eraseCurrentPiecePrevPos()
     drawCurrentPiece()
