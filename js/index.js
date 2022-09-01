@@ -1,19 +1,3 @@
-const model = {
-    boxes: [],
-    currentPiece: {
-        type: null,
-        coors: [],
-        prevCoors: [],
-    }
-}
-$start.addEventListener('click', () => {
-    if(settings.dimensions.width < 5 || settings.dimensions.height < 7) {
-        return console.error('invalid gameboard dimensions')
-    }
-    $start.style.display = 'none'
-    launch()
-})
-
 function onPageLoad() {
     $gameBoard.style.width = settings.dimensions.width * settings.dimensions.unit + 'px'
     $gameBoard.style.height = settings.dimensions.height * settings.dimensions.unit + 'px'
@@ -123,8 +107,23 @@ function movePieceDownOneUnit() {
 
 function checkForScoringRow() {
     let potentialScorers = model.boxes.filter(box => box.set)
+    console.log('check for scoring row')
 }
 
+function increaseVelocity() {
+    console.log('increase velocity')
+}
+
+function decreaseVelocity() {
+    console.log('decrease velocity')
+}
+
+function rotatePiece() {
+    console.log('rotate piece')
+    if(currentPiece.type == 0) {
+
+    }
+}
 
 function drawCurrentPiece() {
     model.currentPiece.coors.forEach(coorPair => {
