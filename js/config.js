@@ -3,9 +3,9 @@ const settings = {
     dimensions: {
         unit: 40,
         width: 11,
-        height: 16,
+        height: 7,
     },
-    speed: 300,
+    speed: 100,
     devPiece: 1
 }
 

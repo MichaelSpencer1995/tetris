@@ -78,7 +78,14 @@ function spawnNewPeice() {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
     })
-    drawCurrentPiece()  
+    for(let i = 0; i < model.currentPiece.coors.length; i++) {
+        if(getDomBox(model.currentPiece.coors[i]).style.background == 'red') {
+            clearInterval(mainInterval)
+            console.log("GAME OVER")
+            break
+        }
+    }
+    drawCurrentPiece()
 }
 
 
