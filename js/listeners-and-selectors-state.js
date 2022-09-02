@@ -5,6 +5,7 @@ let $cols
 
 let wHeld, aHeld, sHeld, dHeld
 let mainInterval
+let startGame = true
 
 const model = {
     boxes: [],
@@ -18,11 +19,7 @@ const model = {
 }
 
 $start.addEventListener('click', () => {
-    if(settings.dimensions.width < 5 || settings.dimensions.height < 7) {
-        return console.error('invalid gameboard dimensions')
-    }
-    $start.style.display = 'none'
-    launch()
+
 })
 
 document.addEventListener('keydown', (e) => {
@@ -65,11 +62,20 @@ document.addEventListener('keydown', (e) => {
         }
     }
     if(e.keyCode == 87) {
-        if(wHeld) {
-            return
+        if(startGame) {
+            if(settings.dimensions.width < 5 || settings.dimensions.height < 7) {
+                return console.error('invalid gameboard dimensions')
+            }
+            startGame = false
+            $start.style.display = 'none'
+            launch()
         } else {
-            wHeld = true
-            rotatePiece()
+            if(wHeld) {
+                return
+            } else {
+                wHeld = true
+                rotatePiece()
+            }
         }
     }
 })
