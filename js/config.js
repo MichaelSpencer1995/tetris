@@ -1,10 +1,10 @@
 const settings = {
-    dev: true,
+    // dev: true,
     dimensions: {
-        unit: 40,
-        width: 11,
-        height: 20,
+        unit: 20,
+        width: 20,
+        height: 30,
     },
-    speed: 350,
+    speed: 5000,
     devPiece: 0
 }

@@ -1,11 +1,11 @@
 body {
-  background: #000;
+  background: #ddd;
 }
 
 .gameboard {
   height: 0px;
   width: 0px;
-  background: #ccc;
+  background: #fff;
   margin: 0 auto;
   margin-top: 70px;
   display: -webkit-box;
@@ -33,5 +33,5 @@ body {
 }
 
 .box-main {
-  box-shadow: inset 0px 0px 0px 1px #fff;
+  box-shadow: inset 0px 0px 0px 1px #ddd;
 }

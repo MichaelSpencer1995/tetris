@@ -29,27 +29,37 @@ function initRotation(type, rot) {
                     ]
                 case 'rot1':
                     return [
+                        new coordinatePair(model.curX, model.curY + 1),
                         new coordinatePair(model.curX, model.curY),
                         new coordinatePair(model.curX, model.curY - 1),
-                        new coordinatePair(model.curX - 1, model.curY - 1),
-                        new coordinatePair(model.curX, model.curY - 2)
+                        new coordinatePair(model.curX - 1, model.curY)
                     ]
                 case 'rot2':
+                    return [
+                        new coordinatePair(model.curX, model.curY - 1),
+                        new coordinatePair(model.curX + 1, model.curY - 1),
+                        new coordinatePair(model.curX - 1, model.curY - 1),
+                        new coordinatePair(model.curX, model.curY)
+                    ]
+                case 'rot3':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX - 1, model.curY + 1),
+                        new coordinatePair(model.curX - 1, model.curY),
+                        new coordinatePair(model.curX - 1, model.curY - 1)
+                    ]
+            }
+        case 'Square':
+            switch(rot) {
+                case 'rot0':
                     return [
                         new coordinatePair(model.curX, model.curY),
                         new coordinatePair(model.curX, model.curY + 1),
                         new coordinatePair(model.curX + 1, model.curY),
-                        new coordinatePair(model.curX - 1, model.curY)
-                    ]
-                case 'rot3':
-                    return [
-                        new coordinatePair(model.curX, model.curY - 1),
-                        new coordinatePair(model.curX - 1, model.curY),
-                        new coordinatePair(model.curX - 1, model.curY - 1),
-                        new coordinatePair(model.curX -1, model.curY - 2)
+                        new coordinatePair(model.curX + 1, model.curY + 1)
                     ]
             }
-      }
+    }
 }
 
 class coordinatePair {
@@ -79,6 +89,15 @@ const pieces = [
             rots: [
                 () => initRotation('Line', 'rot0'),
                 () => initRotation('Line', 'rot1')
+            ]
+        }
+    },
+    {
+        shape: 'Square',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Square', 'rot0')
             ]
         }
     },

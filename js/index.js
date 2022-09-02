@@ -138,53 +138,26 @@ function decreaseVelocity() {
 }
 
 function rotatePiece() {
-    setCurXandYofPiece()
     setPrevPosInModel()
+    // pieces[model.currentPiece.type].rotData.setOriginX()
+    // pieces[model.currentPiece.type].rotData.setOriginY()
+    model.curX = model.currentPiece.coors[0].x
+    model.curY = model.currentPiece.coors[0].y
     // this cycles through the rots in the matrix
-    if(pieces[0].rotData.rot + 1 > pieces[0].rotData.rots.length - 1) {
-        pieces[0].rotData.rot = 0
+    if(pieces[model.currentPiece.type].rotData.rot + 1 > pieces[model.currentPiece.type].rotData.rots.length - 1) {
+        pieces[model.currentPiece.type].rotData.rot = 0
     } else {
-        pieces[0].rotData.rot++
+        pieces[model.currentPiece.type].rotData.rot++
     }
-    if(model.currentPiece.type == 0) {
-        model.currentPiece.coors = []
-        const rot = pieces[0].rotData.rots[pieces[0].rotData.rot]()
-        // check if rot0 valid rotation can be made to be
-        rot.forEach((v) => {
-            const val = (typeof v === 'object') ? Object.assign({}, v) : v
-            model.currentPiece.coors.push(val)
-        })
-    }
+    model.currentPiece.coors = []
+    const rot = pieces[model.currentPiece.type].rotData.rots[pieces[model.currentPiece.type].rotData.rot]()
+    // check if rot0 valid rotation can be made to be
+    rot.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.coors.push(val)
+    })
     eraseCurrentPiecePrevPos()
     drawCurrentPiece()
-}
-
-function setCurXandYofPiece() {
-    let lowYBound = 0
-    let leftXBound, rightXBound, xAvg
-
-    model.currentPiece.coors.forEach((coorPair, i) => {
-        if(coorPair.y > lowYBound) {
-            lowYBound = coorPair.y
-        }
-        if(i == 0) {
-            leftXBound = coorPair.x
-            rightXBound = coorPair.x
-        } else {
-            if(coorPair.x < leftXBound) {
-                leftXBound = coorPair.x
-            }
-            if(coorPair.x > rightXBound) {
-                rightXBound = coorPair.x
-            }
-        }
-    })
-
-    xAvg = (rightXBound + leftXBound) % 2 == 0 ? (rightXBound + leftXBound) / 2 : (rightXBound + leftXBound) / 2 +  0.5
-
-    model.curY = lowYBound
-    model.curX = xAvg
-    console.log(lowYBound, xAvg)
 }
 
 function drawCurrentPiece() {
