@@ -160,8 +160,6 @@ function rotatePiece() {
 }
 
 function setCurXandYofPiece() {
-    // these determine a a center for which the piece to be rotated around, incase I ever want to add more intense pieces
-    // instead of hard coding the centers for each piece
     let lowYBound = 0
     let leftXBound, rightXBound, xAvg
 
@@ -182,10 +180,11 @@ function setCurXandYofPiece() {
         }
     })
 
-    xAvg = (rightXBound + leftXBound) % 2 == 0 ? (rightXBound + leftXBound) / 2 : (rightXBound + leftXBound) / 2 + 0.5
+    xAvg = (rightXBound + leftXBound) % 2 == 0 ? (rightXBound + leftXBound) / 2 : (rightXBound + leftXBound) / 2 +  0.5
 
     model.curY = lowYBound
     model.curX = xAvg
+    console.log(lowYBound, xAvg)
 }
 
 function drawCurrentPiece() {

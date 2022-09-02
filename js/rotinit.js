@@ -1,23 +1,55 @@
 
 function initRotation(type, rot) {
-    if(type == 'Line') {
-        if(rot == 'rot0') {
-            return [
-                new coordinatePair(model.curX, model.curY),
-                new coordinatePair(model.curX + 1, model.curY),
-                new coordinatePair(model.curX - 2, model.curY),
-                new coordinatePair(model.curX - 1, model.curY),
-            ]
-        }
-        if(rot == 'rot1') {
-            return [
-                new coordinatePair(model.curX, model.curY),
-                new coordinatePair(model.curX, model.curY - 1),
-                new coordinatePair(model.curX, model.curY - 2),
-                new coordinatePair(model.curX, model.curY - 3),
-            ]
-        }
-    }
+    switch(type) {
+        case 'Line':
+            switch(rot) {
+                case 'rot0':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX + 1, model.curY),
+                        new coordinatePair(model.curX - 2, model.curY),
+                        new coordinatePair(model.curX - 1, model.curY),
+                    ]
+                case 'rot1':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX, model.curY - 1),
+                        new coordinatePair(model.curX, model.curY - 2),
+                        new coordinatePair(model.curX, model.curY - 3),
+                    ]
+            }
+        case 'T':
+            switch(rot) {
+                case 'rot0':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX, model.curY + 1),
+                        new coordinatePair(model.curX + 1, model.curY + 1),
+                        new coordinatePair(model.curX - 1, model.curY + 1)
+                    ]
+                case 'rot1':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX, model.curY - 1),
+                        new coordinatePair(model.curX - 1, model.curY - 1),
+                        new coordinatePair(model.curX, model.curY - 2)
+                    ]
+                case 'rot2':
+                    return [
+                        new coordinatePair(model.curX, model.curY),
+                        new coordinatePair(model.curX, model.curY + 1),
+                        new coordinatePair(model.curX + 1, model.curY),
+                        new coordinatePair(model.curX - 1, model.curY)
+                    ]
+                case 'rot3':
+                    return [
+                        new coordinatePair(model.curX, model.curY - 1),
+                        new coordinatePair(model.curX - 1, model.curY),
+                        new coordinatePair(model.curX - 1, model.curY - 1),
+                        new coordinatePair(model.curX -1, model.curY - 2)
+                    ]
+            }
+      }
 }
 
 class coordinatePair {
@@ -28,13 +60,18 @@ class coordinatePair {
 }
 
 const pieces = [
-    // [
-    //     // T shape
-    //     origin,
-    //     { x: origin.x, y: origin.y + 1 },
-    //     { x: origin.x + 1, y: origin.y + 1 },
-    //     { x: origin.x - 1, y: origin.y + 1 }
-    // ],
+    {
+        shape: 'T',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('T', 'rot0'),
+                () => initRotation('T', 'rot1'),
+                () => initRotation('T', 'rot2'),
+                () => initRotation('T', 'rot3'),
+            ]
+        }
+    },
     {
         shape: 'Line',
         rotData: {
