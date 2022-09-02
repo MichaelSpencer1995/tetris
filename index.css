@@ -1,22 +1,16 @@
 body {
-  background: #ddd;
+  background: #eee;
 }
 
 .gameboard {
-  height: 0px;
-  width: 0px;
+  width: 500px;
+  height: 750px;
   background: #fff;
   margin: 0 auto;
-  margin-top: 70px;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  margin-top: 65px;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 #start {
@@ -31,7 +25,6 @@ body {
   cursor: pointer;
   background: #005900;
 }
-
 .box-main {
   box-shadow: inset 0px 0px 0px 1px #ddd;
 }
