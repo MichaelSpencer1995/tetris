@@ -1,5 +1,6 @@
 const $start = document.getElementById('start')
 const $gameBoard = document.getElementsByClassName('gameboard')[0]
+const $score = document.getElementById('score')
 
 let $cols
 
@@ -8,19 +9,18 @@ let mainInterval
 let startGame = true
 
 const model = {
+    score: 0,
     boxes: [],
     currentPiece: {
         type: null,
         coors: [],
         prevCoors: [],
     },
-    curY: 0,
-    curX: settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
+    rotOrigin: {
+        x: settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2,
+        y: 0
+    }
 }
-
-$start.addEventListener('click', () => {
-
-})
 
 document.addEventListener('keydown', (e) => {
     if(e.keyCode == 65) {
@@ -33,6 +33,7 @@ document.addEventListener('keydown', (e) => {
                 model.currentPiece.coors.forEach(coorPair => {
                     coorPair.x--
                 })
+                model.rotOrigin.x--
                 eraseCurrentPiecePrevPos()
                 drawCurrentPiece()
             }
@@ -48,6 +49,7 @@ document.addEventListener('keydown', (e) => {
                 model.currentPiece.coors.forEach(coorPair => {
                     coorPair.x++
                 })
+                model.rotOrigin.x++
                 eraseCurrentPiecePrevPos()
                 drawCurrentPiece()
             }

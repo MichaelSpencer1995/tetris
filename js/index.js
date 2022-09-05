@@ -68,8 +68,8 @@ function draw() {
 }
 
 function resetOrigin() {
-    model.curY = 0
-    model.curX = settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
+    model.rotOrigin.y = 0
+    model.rotOrigin.x = settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
 }
 
 function resetRotationIndexes() {
@@ -77,6 +77,8 @@ function resetRotationIndexes() {
 }
 
 function spawnNewPeice() {
+    model.score++
+    $score.innerHTML = model.score
     // if(cant spawn bc pieces in the way) {
     //     gameover()
     // })
@@ -110,11 +112,14 @@ function movePieceDownOneUnit() {
         model.currentPiece.prevCoors = []
         setPrevPosInModel()
         model.currentPiece.coors.forEach(coorPair => coorPair.y++)
+        model.rotOrigin.y++
         eraseCurrentPiecePrevPos()
         drawCurrentPiece()
     } else {
         model.currentPiece.coors.forEach(coorPair => {
             getDomBox(coorPair).style.background = 'red'
+            getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px red'
+
             getModelBox(coorPair).set = true
         })
         checkForScoringRow()
@@ -139,10 +144,6 @@ function decreaseVelocity() {
 
 function rotatePiece() {
     setPrevPosInModel()
-    // pieces[model.currentPiece.type].rotData.setOriginX()
-    // pieces[model.currentPiece.type].rotData.setOriginY()
-    model.curX = model.currentPiece.coors[0].x
-    model.curY = model.currentPiece.coors[0].y
     // this cycles through the rots in the matrix
     if(pieces[model.currentPiece.type].rotData.rot + 1 > pieces[model.currentPiece.type].rotData.rots.length - 1) {
         pieces[model.currentPiece.type].rotData.rot = 0
@@ -150,9 +151,9 @@ function rotatePiece() {
         pieces[model.currentPiece.type].rotData.rot++
     }
     model.currentPiece.coors = []
-    const rot = pieces[model.currentPiece.type].rotData.rots[pieces[model.currentPiece.type].rotData.rot]()
-    // check if rot0 valid rotation can be made to be
-    rot.forEach((v) => {
+    const newRotCoors = pieces[model.currentPiece.type].rotData.rots[pieces[model.currentPiece.type].rotData.rot]()
+    // check if special rot cnds can be made here
+    newRotCoors.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
     })
@@ -163,11 +164,13 @@ function rotatePiece() {
 function drawCurrentPiece() {
     model.currentPiece.coors.forEach(coorPair => {
         getDomBox(coorPair).style.background = 'blue'
+        getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px darkblue'
     })
 }
 
 function eraseCurrentPiecePrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
+        getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
         getDomBox(coorPair).style.background = 'none'
     })
 }

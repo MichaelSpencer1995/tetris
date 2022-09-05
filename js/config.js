@@ -5,6 +5,6 @@ const settings = {
         width: 10,
         height: 16,
     },
-    speed: 250,
+    speed: 3000,
     devPiece: 0
 }
