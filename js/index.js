@@ -104,7 +104,7 @@ function spawnNewPeice() {
 
 
 function applyGravityToPiece() {
-    mainInterval = setInterval(movePieceDownOneUnit, settings.speed)
+    mainInterval = setInterval(movePieceDownOneUnit, settings.speed.regular)
 }
 
 function movePieceDownOneUnit() {
@@ -135,11 +135,13 @@ function checkForScoringRow() {
 }
 
 function increaseVelocity() {
-    console.log('increase velocity')
+    clearInterval(mainInterval)
+    mainInterval = setInterval(movePieceDownOneUnit, settings.speed.fast)
 }
 
 function decreaseVelocity() {
-    console.log('decrease velocity')
+    clearInterval(mainInterval)
+    mainInterval = setInterval(movePieceDownOneUnit, settings.speed.regular)
 }
 
 function rotatePiece() {

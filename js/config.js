@@ -1,10 +1,13 @@
 const settings = {
     dev: false,
     dimensions: {
-        unit: 50,
-        width: 10,
-        height: 16,
+        unit: 40,
+        width: 12,
+        height: 20,
     },
-    speed: 300,
+    speed: {
+        regular: 300,
+        fast: 50
+    },
     devPiece: 0
 }
