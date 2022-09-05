@@ -84,7 +84,7 @@ function spawnNewPeice() {
     // })
     resetOrigin()
     resetRotationIndexes()
-    const ranIndx = settings.dev ? settings.devPiece : Math.floor(Math.random() * pieces.length)
+    const ranIndx = Math.floor(Math.random() * pieces.length)
     const randomPiece = pieces[ranIndx].rotData.rots[0]()
     model.currentPiece.type = ranIndx
     console.log(randomPiece)

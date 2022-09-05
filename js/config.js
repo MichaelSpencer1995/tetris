@@ -1,5 +1,4 @@
 const settings = {
-    dev: false,
     dimensions: {
         unit: 40,
         width: 12,
@@ -8,6 +7,5 @@ const settings = {
     speed: {
         regular: 300,
         fast: 50
-    },
-    devPiece: 0
+    }
 }
