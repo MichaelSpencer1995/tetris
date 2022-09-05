@@ -59,14 +59,6 @@ function getModelBox(coorPair) {
     return match
 }
 
-function draw() {
-    model.boxes.forEach(box => {
-        if(box.color) {
-            getDomBox(box).style.background = box.color
-        }
-    })
-}
-
 function resetOrigin() {
     model.rotOrigin.y = 0
     model.rotOrigin.x = settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2
@@ -79,9 +71,6 @@ function resetRotationIndexes() {
 function spawnNewPeice() {
     model.score++
     $score.innerHTML = model.score
-    // if(cant spawn bc pieces in the way) {
-    //     gameover()
-    // })
     resetOrigin()
     resetRotationIndexes()
     const ranIndx = Math.floor(Math.random() * pieces.length)
@@ -165,15 +154,17 @@ function rotatePiece() {
 
 function drawCurrentPiece() {
     model.currentPiece.coors.forEach(coorPair => {
-        getDomBox(coorPair).style.background = 'blue'
-        getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px darkblue'
+        const $el = getDomBox(coorPair)
+        $el.style.background = 'blue'
+        $el.style.boxShadow = 'inset 0px 0px 0px 1px darkblue'
     })
 }
 
 function eraseCurrentPiecePrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
-        getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
-        getDomBox(coorPair).style.background = 'none'
+        const $el = getDomBox(coorPair)
+        $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
+        $el.style.background = 'none'
     })
 }
 

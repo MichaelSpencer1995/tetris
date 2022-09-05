@@ -75,12 +75,6 @@ document.addEventListener('keydown', (e) => {
 })
 
 document.addEventListener('keyup', (e) => {
-    // if(e.keyCode == 65) {
-    //     aHeld = false
-    // }
-    // if(e.keyCode == 68) {
-    //     dHeld = false
-    // }
     if(e.keyCode == 83) {
         sHeld = false
         decreaseVelocity()
