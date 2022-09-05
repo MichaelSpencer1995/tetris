@@ -24,35 +24,27 @@ const model = {
 
 document.addEventListener('keydown', (e) => {
     if(e.keyCode == 65) {
-        if(aHeld) {
-            return
-        } else {
-            aHeld = true
-            if(legalMove('left')) {
-                setPrevPosInModel()
-                model.currentPiece.coors.forEach(coorPair => {
-                    coorPair.x--
-                })
-                model.rotOrigin.x--
-                eraseCurrentPiecePrevPos()
-                drawCurrentPiece()
-            }
+        aHeld = true
+        if(legalMove('left')) {
+            setPrevPosInModel()
+            model.currentPiece.coors.forEach(coorPair => {
+                coorPair.x--
+            })
+            model.rotOrigin.x--
+            eraseCurrentPiecePrevPos()
+            drawCurrentPiece()
         }
     }
     if(e.keyCode == 68) {
-        if(dHeld) {
-            return
-        } else {
-            dHeld = true
-            if(legalMove('right')) {
-                setPrevPosInModel()
-                model.currentPiece.coors.forEach(coorPair => {
-                    coorPair.x++
-                })
-                model.rotOrigin.x++
-                eraseCurrentPiecePrevPos()
-                drawCurrentPiece()
-            }
+        dHeld = true
+        if(legalMove('right')) {
+            setPrevPosInModel()
+            model.currentPiece.coors.forEach(coorPair => {
+                coorPair.x++
+            })
+            model.rotOrigin.x++
+            eraseCurrentPiecePrevPos()
+            drawCurrentPiece()
         }
     }
     if(e.keyCode == 83) {if
@@ -83,12 +75,12 @@ document.addEventListener('keydown', (e) => {
 })
 
 document.addEventListener('keyup', (e) => {
-    if(e.keyCode == 65) {
-        aHeld = false
-    }
-    if(e.keyCode == 68) {
-        dHeld = false
-    }
+    // if(e.keyCode == 65) {
+    //     aHeld = false
+    // }
+    // if(e.keyCode == 68) {
+    //     dHeld = false
+    // }
     if(e.keyCode == 83) {
         sHeld = false
         decreaseVelocity()
