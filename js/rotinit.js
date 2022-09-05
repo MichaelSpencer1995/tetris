@@ -1,6 +1,5 @@
 
 function initRotation(type, rot) {
-    console.log(type, rot)
     switch(type) {
         case 'Line':
             switch(rot) {
@@ -96,30 +95,64 @@ function initRotation(type, rot) {
                 case 'rot0':
                     return [
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
-                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
-                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1),
-                        new CoordinatePair(model.rotOrigin.x + 2, model.rotOrigin.y + 1)
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1)
                     ]
                 case 'rot1':
                     return [
-                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
-                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1),
                         new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
-                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y - 1)
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y - 1),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1)
                     ]
                 case 'rot2':
                     return [
-                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 1),
-                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y - 1),
-                        new CoordinatePair(model.rotOrigin.x + 2, model.rotOrigin.y - 1),
-                        new CoordinatePair(model.rotOrigin.x + 2, model.rotOrigin.y)
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1)
                     ]
                 case 'rot3':
                     return [
-                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
-                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y  + 1),
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 1),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y - 1),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y + 1)
+                    ]
+            }
+        case 'Z':
+            switch(rot) {
+                case 'rot0':
+                    return [
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y + 1)
+                    ]
+                case 'rot1':
+                    return [
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
                         new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y - 1)
+                    ]
+            }
+        case 'N':
+            switch(rot) {
+                case 'rot0':
+                    return [
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y + 1)
+                    ]
+                case 'rot1':
+                    return [
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y + 1),
+                        new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y - 1)
                     ]
             }
     }
@@ -178,16 +211,36 @@ const pieces = [
             ]
         }
     },
-    // {
-    //     shape: 'Backwards L',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('Backwards L', 'rot0'),
-    //             () => initRotation('Backwards L', 'rot1'),
-    //             () => initRotation('Backwards L', 'rot2'),
-    //             () => initRotation('Backwards L', 'rot3')
-    //         ]
-    //     }
-    // }
+    {
+        shape: 'Backwards L',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Backwards L', 'rot0'),
+                () => initRotation('Backwards L', 'rot1'),
+                () => initRotation('Backwards L', 'rot2'),
+                () => initRotation('Backwards L', 'rot3')
+            ]
+        }
+    },
+    {
+        shape: 'Z',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Z', 'rot0'),
+                () => initRotation('Z', 'rot1')
+            ]
+        }
+    },
+    {
+        shape: 'N',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('N', 'rot0'),
+                () => initRotation('N', 'rot1')
+            ]
+        }
+    }
 ]
