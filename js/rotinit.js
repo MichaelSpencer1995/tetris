@@ -9,6 +9,11 @@ function initRotation(type, rot) {
                         new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
                         new CoordinatePair(model.rotOrigin.x - 2, model.rotOrigin.y),
                         new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
+                        // new CoordinatePair(model.rotOrigin.x - 3, model.rotOrigin.y),
+                        // new CoordinatePair(model.rotOrigin.x - 4, model.rotOrigin.y),
+                        // new CoordinatePair(model.rotOrigin.x - 5, model.rotOrigin.y),
+                        // new CoordinatePair(model.rotOrigin.x - 6, model.rotOrigin.y),
+                        // new CoordinatePair(model.rotOrigin.x - 7, model.rotOrigin.y),
                     ]
                 case 'rot1':
                     return [
@@ -16,6 +21,11 @@ function initRotation(type, rot) {
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 1),
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 2),
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 3),
+                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 4),
+                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 5),
+                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 6),
+                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 7),
+                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 8),
                     ]
             }
         case 'T':
@@ -164,22 +174,22 @@ function CoordinatePair(x, y) {
 }
 
 const pieces = [
-    {
-        shape: 'T',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('T', 'rot0'),
-                () => initRotation('T', 'rot1'),
-                () => initRotation('T', 'rot2'),
-                () => initRotation('T', 'rot3'),
-            ],
-            rotOrigin: {
-                x: 0,
-                y: 0
-            }
-        }
-    },
+    // {
+    //     shape: 'T',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('T', 'rot0'),
+    //             () => initRotation('T', 'rot1'),
+    //             () => initRotation('T', 'rot2'),
+    //             () => initRotation('T', 'rot3'),
+    //         ],
+    //         rotOrigin: {
+    //             x: 0,
+    //             y: 0
+    //         }
+    //     }
+    // },
     {
         shape: 'Line',
         rotData: {
@@ -190,57 +200,57 @@ const pieces = [
             ]
         }
     },
-    {
-        shape: 'Square',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('Square', 'rot0')
-            ]
-        }
-    },
-    {
-        shape: 'L',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('Regular L', 'rot0'),
-                () => initRotation('Regular L', 'rot1'),
-                () => initRotation('Regular L', 'rot2'),
-                () => initRotation('Regular L', 'rot3')
-            ]
-        }
-    },
-    {
-        shape: 'Backwards L',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('Backwards L', 'rot0'),
-                () => initRotation('Backwards L', 'rot1'),
-                () => initRotation('Backwards L', 'rot2'),
-                () => initRotation('Backwards L', 'rot3')
-            ]
-        }
-    },
-    {
-        shape: 'Z',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('Z', 'rot0'),
-                () => initRotation('Z', 'rot1')
-            ]
-        }
-    },
-    {
-        shape: 'N',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('N', 'rot0'),
-                () => initRotation('N', 'rot1')
-            ]
-        }
-    }
+    // {
+    //     shape: 'Square',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('Square', 'rot0')
+    //         ]
+    //     }
+    // },
+    // {
+    //     shape: 'L',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('Regular L', 'rot0'),
+    //             () => initRotation('Regular L', 'rot1'),
+    //             () => initRotation('Regular L', 'rot2'),
+    //             () => initRotation('Regular L', 'rot3')
+    //         ]
+    //     }
+    // },
+    // {
+    //     shape: 'Backwards L',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('Backwards L', 'rot0'),
+    //             () => initRotation('Backwards L', 'rot1'),
+    //             () => initRotation('Backwards L', 'rot2'),
+    //             () => initRotation('Backwards L', 'rot3')
+    //         ]
+    //     }
+    // },
+    // {
+    //     shape: 'Z',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('Z', 'rot0'),
+    //             () => initRotation('Z', 'rot1')
+    //         ]
+    //     }
+    // },
+    // {
+    //     shape: 'N',
+    //     rotData: {
+    //         rot: 0,
+    //         rots: [
+    //             () => initRotation('N', 'rot0'),
+    //             () => initRotation('N', 'rot1')
+    //         ]
+    //     }
+    // }
 ]

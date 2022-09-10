@@ -18,7 +18,8 @@ function initModel() {
             let box = {
                 x: i,
                 y: j,
-                set: false
+                set: false,
+                scorer: false
             }
             model.boxes.push(box)
         }
@@ -76,7 +77,6 @@ function spawnNewPeice() {
     const ranIndx = Math.floor(Math.random() * pieces.length)
     const randomPiece = pieces[ranIndx].rotData.rots[0]()
     model.currentPiece.type = ranIndx
-    console.log(randomPiece)
     randomPiece.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
@@ -97,7 +97,7 @@ function applyGravityToPiece() {
 }
 
 function movePieceDownOneUnit() {
-    if(legalMove('down')) {
+    if(legalMove(model.currentPiece.coors, 'down')) {
         model.currentPiece.prevCoors = []
         setPrevPosInModel()
         model.currentPiece.coors.forEach(coorPair => coorPair.y++)
@@ -119,8 +119,38 @@ function movePieceDownOneUnit() {
 }
 
 function checkForScoringRow() {
-    let potentialScorers = model.boxes.filter(box => box.set)
-    console.log('check for scoring row')
+    const potentialScorers = groupBy(model.boxes.filter(box => box.set), 'y')
+    const scorers = []
+    for(const group in potentialScorers) {
+        if(potentialScorers[group].length == settings.dimensions.width) {
+            potentialScorers[group].forEach(scorer => scorers.push(scorer))
+        }
+    }
+    if(scorers.length != 0) {
+        scorers.forEach(scorer => {
+            getModelBox(scorer).scorer = true
+        })
+        scoreRows()
+    }
+}
+
+function scoreRows() {
+    clearInterval(mainInterval)
+    $cols = document.getElementsByClassName('col')
+    for(let i = 0; i < $cols.length; i++) {
+        let scorerIndex = -1
+        for(let j = 0; j < $cols[i].children.length; j++) {
+            if(getModelBox({ x: i, y: j }).scorer) {
+                getModelBox({ x: i, y: j }).scorer = false
+                scorerIndex = j
+                $cols[i].children[j].style.background = 'green'
+            }
+        }
+        for(let k = 0; k < scorerIndex; k++) {
+            getDomBox({x: i, y: k}).style.background = 'orange'
+            console.log(getDomBox({x: i, y: k}))
+        }
+    }
 }
 
 function increaseVelocity() {
@@ -141,22 +171,62 @@ function rotatePiece() {
     } else {
         pieces[model.currentPiece.type].rotData.rot++
     }
-    model.currentPiece.coors = []
     const newRotCoors = pieces[model.currentPiece.type].rotData.rots[pieces[model.currentPiece.type].rotData.rot]()
-    // check if special rot cnds can be made here
-    newRotCoors.forEach((v) => {
-        const val = (typeof v === 'object') ? Object.assign({}, v) : v
-        model.currentPiece.coors.push(val)
-    })
+    setSpecialRotCnds(newRotCoors)
+    if(!pieceInWay(newRotCoors)) {
+        model.currentPiece.coors = []
+        newRotCoors.forEach((v) => {
+            const val = (typeof v === 'object') ? Object.assign({}, v) : v
+            model.currentPiece.coors.push(val)
+        })
+    }
     eraseCurrentPiecePrevPos()
     drawCurrentPiece()
+}
+
+function pieceInWay(coors) {
+    let cnd = false
+    coors.forEach(coorPair => {
+        if(getDomBox(coorPair).style.background == 'red') {
+            cnd = true
+        }
+    })
+    return cnd
+}
+
+function setSpecialRotCnds(coors) {
+    let outOfBounds = false
+    coors.forEach(coorPair => {
+        if(coorPair.x < 0) {
+            outOfBounds = 'left'
+        }
+        if(coorPair.x > settings.dimensions.width - 1) {
+            outOfBounds = 'right'
+        }
+        if(coorPair.y < 0) {
+            outOfBounds = 'upper'
+        }
+    })
+    if(outOfBounds == 'left') {
+        coors.forEach(coorPair => coorPair.x++)
+        setSpecialRotCnds(coors)
+    }
+    if(outOfBounds == 'right') {
+        coors.forEach(coorPair => coorPair.x--)
+        setSpecialRotCnds(coors)
+    }
+    if(outOfBounds == 'upper') {
+        coors.forEach(coorPair => coorPair.y++)
+        setSpecialRotCnds(coors)
+    }
+    return
 }
 
 function drawCurrentPiece() {
     model.currentPiece.coors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.background = 'blue'
-        $el.style.boxShadow = 'inset 0px 0px 0px 1px darkblue'
+        $el.style.boxShadow = 'inset 0px 0px 0px 1px blue'
     })
 }
 
@@ -168,10 +238,10 @@ function eraseCurrentPiecePrevPos() {
     })
 }
 
-function legalMove(bound) {
+function legalMove(set, bound) {
     let cnd = true
     if(bound == 'left') {
-        model.currentPiece.coors.forEach(coorPair => {
+        set.forEach(coorPair => {
             if(coorPair.x - 1 < 0 ) {
                 cnd = false
             } else if(getDomBox(
@@ -185,7 +255,7 @@ function legalMove(bound) {
         })
     }
     if(bound == 'right') {
-        model.currentPiece.coors.forEach(coorPair => {
+        set.forEach(coorPair => {
             if(coorPair.x + 1 >= settings.dimensions.width) {
                 cnd = false
             } else if(getDomBox(
@@ -199,7 +269,7 @@ function legalMove(bound) {
         })
     }
     if(bound == 'down') {
-        model.currentPiece.coors.forEach(coorPair => {
+        set.forEach(coorPair => {
             if(coorPair.y + 1 >= settings.dimensions.height) {
                 cnd = false
             } else if(getDomBox(
@@ -221,5 +291,16 @@ function setPrevPosInModel() {
         model.currentPiece.prevCoors.push(val)
     })
 }
+
+function groupBy(arr, property) {
+  return arr.reduce(function(memo, x) {
+    if(!memo[x[property]]) {
+        memo[x[property]] = []
+    }
+    memo[x[property]].push(x)
+    return memo
+  }, {})
+}
+
 
 onPageLoad()

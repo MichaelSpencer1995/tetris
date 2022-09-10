@@ -25,7 +25,7 @@ const model = {
 document.addEventListener('keydown', (e) => {
     if(e.keyCode == 65) {
         aHeld = true
-        if(legalMove('left')) {
+        if(legalMove(model.currentPiece.coors, 'left')) {
             setPrevPosInModel()
             model.currentPiece.coors.forEach(coorPair => {
                 coorPair.x--
@@ -37,7 +37,7 @@ document.addEventListener('keydown', (e) => {
     }
     if(e.keyCode == 68) {
         dHeld = true
-        if(legalMove('right')) {
+        if(legalMove(model.currentPiece.coors, 'right')) {
             setPrevPosInModel()
             model.currentPiece.coors.forEach(coorPair => {
                 coorPair.x++
