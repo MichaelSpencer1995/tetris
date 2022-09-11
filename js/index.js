@@ -137,18 +137,43 @@ function checkForScoringRow() {
 function scoreRows() {
     clearInterval(mainInterval)
     $cols = document.getElementsByClassName('col')
+
     for(let i = 0; i < $cols.length; i++) {
-        let scorerIndex = -1
         for(let j = 0; j < $cols[i].children.length; j++) {
-            if(getModelBox({ x: i, y: j }).scorer) {
-                getModelBox({ x: i, y: j }).scorer = false
-                scorerIndex = j
-                $cols[i].children[j].style.background = 'green'
+            const curBox = getModelBox({ x: i, y: j })
+            if(curBox.scorer) {
+                curBox.y = 0
+                curBox.scorer = false
+                curBox.set = false
             }
         }
-        for(let k = 0; k < scorerIndex; k++) {
-            getDomBox({x: i, y: k}).style.background = 'orange'
-            console.log(getDomBox({x: i, y: k}))
+    }
+
+
+    model.boxes.sort((a, b) => (a.y > b.y) ? 1 : -1)
+    model.boxes.sort((a, b) => (a.x > b.x) ? 1 : -1)
+    let resetY = settings.dimensions.height - 1
+    for(let i = 0; i < model.boxes.length; i++) {
+        if(resetY < 0) {
+            resetY = settings.dimensions.height - 1
+        }
+        model.boxes[i].y = resetY
+        resetY--
+    }
+
+    
+    for(let i = 0; i < $cols.length; i++) {
+        for(let j = 0; j < $cols[i].children.length; j++) {
+            const curBox = getModelBox({ x: i, y: j })
+            const $curBox = $cols[i].children[j]
+            curBox.x = i
+            curBox.y = j
+            $curBox.style.background = '#fff'
+            $curBox.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
+            if(curBox.set) {
+                $curBox.style.background = 'red'
+                $curBox.style.boxShadow = 'inset 0px 0px 0px 1px red'
+            }
         }
     }
 }

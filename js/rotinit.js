@@ -9,11 +9,6 @@ function initRotation(type, rot) {
                         new CoordinatePair(model.rotOrigin.x + 1, model.rotOrigin.y),
                         new CoordinatePair(model.rotOrigin.x - 2, model.rotOrigin.y),
                         new CoordinatePair(model.rotOrigin.x - 1, model.rotOrigin.y),
-                        // new CoordinatePair(model.rotOrigin.x - 3, model.rotOrigin.y),
-                        // new CoordinatePair(model.rotOrigin.x - 4, model.rotOrigin.y),
-                        // new CoordinatePair(model.rotOrigin.x - 5, model.rotOrigin.y),
-                        // new CoordinatePair(model.rotOrigin.x - 6, model.rotOrigin.y),
-                        // new CoordinatePair(model.rotOrigin.x - 7, model.rotOrigin.y),
                     ]
                 case 'rot1':
                     return [
@@ -21,11 +16,6 @@ function initRotation(type, rot) {
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 1),
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 2),
                         new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 3),
-                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 4),
-                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 5),
-                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 6),
-                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 7),
-                        // new CoordinatePair(model.rotOrigin.x, model.rotOrigin.y - 8),
                     ]
             }
         case 'T':
@@ -174,6 +164,16 @@ function CoordinatePair(x, y) {
 }
 
 const pieces = [
+    {
+        shape: 'Line',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Line', 'rot0'),
+                () => initRotation('Line', 'rot1')
+            ]
+        }
+    },
     // {
     //     shape: 'T',
     //     rotData: {
@@ -190,16 +190,6 @@ const pieces = [
     //         }
     //     }
     // },
-    {
-        shape: 'Line',
-        rotData: {
-            rot: 0,
-            rots: [
-                () => initRotation('Line', 'rot0'),
-                () => initRotation('Line', 'rot1')
-            ]
-        }
-    },
     // {
     //     shape: 'Square',
     //     rotData: {
