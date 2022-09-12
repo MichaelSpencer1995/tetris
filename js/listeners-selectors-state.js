@@ -13,8 +13,9 @@ const model = {
     boxes: [],
     currentPiece: {
         type: null,
+        color: null,
         coors: [],
-        prevCoors: [],
+        prevCoors: []
     },
     rotOrigin: {
         x: settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2,

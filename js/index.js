@@ -76,13 +76,16 @@ function spawnNewPeice() {
     resetRotationIndexes()
     const ranIndx = Math.floor(Math.random() * pieces.length)
     const randomPiece = pieces[ranIndx].rotData.rots[0]()
+    const color = pieces[ranIndx].color
     model.currentPiece.type = ranIndx
+    model.currentPiece.color = color
     randomPiece.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.coors.push(val)
     })
     for(let i = 0; i < model.currentPiece.coors.length; i++) {
-        if(getDomBox(model.currentPiece.coors[i]).style.background == 'red') {
+        if(getDomBox(model.currentPiece.coors[i]).dataset.pieceSet) {
+            console.log(getDomBox(model.currentPiece.coors[i]).style.background)
             clearInterval(mainInterval)
             console.log("GAME OVER")
             break
@@ -106,9 +109,9 @@ function movePieceDownOneUnit() {
         drawCurrentPiece()
     } else {
         model.currentPiece.coors.forEach(coorPair => {
-            getDomBox(coorPair).style.background = 'red'
-            getDomBox(coorPair).style.boxShadow = 'inset 0px 0px 0px 1px red'
-
+            getDomBox(coorPair).style.background = model.currentPiece.color
+            getDomBox(coorPair).style.boxShadow = `inset 0px 0px 0px 1px ${model.currentPiece.color}`
+            getDomBox(coorPair).dataset.pieceSet = true
             getModelBox(coorPair).set = true
         })
         checkForScoringRow()
@@ -168,7 +171,7 @@ function scoreRows() {
             const $curBox = $cols[i].children[j]
             curBox.x = i
             curBox.y = j
-            $curBox.style.background = '#fff'
+            $curBox.style.background = 'white'
             $curBox.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
             if(curBox.set) {
                 $curBox.style.background = 'red'
@@ -212,7 +215,8 @@ function rotatePiece() {
 function pieceInWay(coors) {
     let cnd = false
     coors.forEach(coorPair => {
-        if(getDomBox(coorPair).style.background == 'red') {
+        if(getDomBox(coorPair).style.background == 'idk') {
+            console.log('wegwegeg')
             cnd = true
         }
     })
@@ -250,8 +254,8 @@ function setSpecialRotCnds(coors) {
 function drawCurrentPiece() {
     model.currentPiece.coors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
-        $el.style.background = 'blue'
-        $el.style.boxShadow = 'inset 0px 0px 0px 1px blue'
+        $el.style.background = model.currentPiece.color
+        $el.style.boxShadow = `inset 0px 0px 0px 1px ${model.currentPiece.color}`
     })
 }
 
@@ -259,7 +263,7 @@ function eraseCurrentPiecePrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
-        $el.style.background = 'none'
+        $el.style.background = 'white'
     })
 }
 
@@ -274,7 +278,7 @@ function legalMove(set, bound) {
                     x: coorPair.x - 1,
                     y: coorPair.y
                 }
-            ).style.background == 'red') {
+            ).dataset.pieceSet) {
                 cnd = false
             }
         })
@@ -288,7 +292,7 @@ function legalMove(set, bound) {
                     x: coorPair.x + 1,
                     y: coorPair.y
                 }
-            ).style.background == 'red') {
+            ).dataset.pieceSet) {
                 cnd = false
             }
         })
@@ -302,7 +306,7 @@ function legalMove(set, bound) {
                     x: coorPair.x,
                     y: coorPair.y + 1
                 }
-            ).style.background == 'red') {
+            ).dataset.pieceSet) {
                 cnd = false
             }
         })

@@ -166,6 +166,7 @@ function CoordinatePair(x, y) {
 const pieces = [
     {
         shape: 'Line',
+        color: 'green',
         rotData: {
             rot: 0,
             rots: [
@@ -174,73 +175,79 @@ const pieces = [
             ]
         }
     },
-    // {
-    //     shape: 'T',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('T', 'rot0'),
-    //             () => initRotation('T', 'rot1'),
-    //             () => initRotation('T', 'rot2'),
-    //             () => initRotation('T', 'rot3'),
-    //         ],
-    //         rotOrigin: {
-    //             x: 0,
-    //             y: 0
-    //         }
-    //     }
-    // },
-    // {
-    //     shape: 'Square',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('Square', 'rot0')
-    //         ]
-    //     }
-    // },
-    // {
-    //     shape: 'L',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('Regular L', 'rot0'),
-    //             () => initRotation('Regular L', 'rot1'),
-    //             () => initRotation('Regular L', 'rot2'),
-    //             () => initRotation('Regular L', 'rot3')
-    //         ]
-    //     }
-    // },
-    // {
-    //     shape: 'Backwards L',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('Backwards L', 'rot0'),
-    //             () => initRotation('Backwards L', 'rot1'),
-    //             () => initRotation('Backwards L', 'rot2'),
-    //             () => initRotation('Backwards L', 'rot3')
-    //         ]
-    //     }
-    // },
-    // {
-    //     shape: 'Z',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('Z', 'rot0'),
-    //             () => initRotation('Z', 'rot1')
-    //         ]
-    //     }
-    // },
-    // {
-    //     shape: 'N',
-    //     rotData: {
-    //         rot: 0,
-    //         rots: [
-    //             () => initRotation('N', 'rot0'),
-    //             () => initRotation('N', 'rot1')
-    //         ]
-    //     }
-    // }
+    {
+        shape: 'T',
+        color: 'orange',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('T', 'rot0'),
+                () => initRotation('T', 'rot1'),
+                () => initRotation('T', 'rot2'),
+                () => initRotation('T', 'rot3'),
+            ],
+            rotOrigin: {
+                x: 0,
+                y: 0
+            }
+        }
+    },
+    {
+        shape: 'Square',
+        color: 'blue',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Square', 'rot0')
+            ]
+        }
+    },
+    {
+        shape: 'L',
+        color: 'purple',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Regular L', 'rot0'),
+                () => initRotation('Regular L', 'rot1'),
+                () => initRotation('Regular L', 'rot2'),
+                () => initRotation('Regular L', 'rot3')
+            ]
+        }
+    },
+    {
+        shape: 'Backwards L',
+        color: '#ffe022',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Backwards L', 'rot0'),
+                () => initRotation('Backwards L', 'rot1'),
+                () => initRotation('Backwards L', 'rot2'),
+                () => initRotation('Backwards L', 'rot3')
+            ]
+        }
+    },
+    {
+        shape: 'Z',
+        color: 'black',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('Z', 'rot0'),
+                () => initRotation('Z', 'rot1')
+            ]
+        }
+    },
+    {
+        shape: 'N',
+        color: '#ff6983',
+        rotData: {
+            rot: 0,
+            rots: [
+                () => initRotation('N', 'rot0'),
+                () => initRotation('N', 'rot1')
+            ]
+        }
+    }
 ]

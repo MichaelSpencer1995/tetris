@@ -5,7 +5,7 @@ const settings = {
         height: 20,
     },
     speed: {
-        regular: 300,
+        regular: 375,
         fast: 50
     }
 }
