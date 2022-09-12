@@ -19,7 +19,8 @@ function initModel() {
                 x: i,
                 y: j,
                 set: false,
-                scorer: false
+                scorer: false,
+                color: null
             }
             model.boxes.push(box)
         }
@@ -107,11 +108,7 @@ function setShadowPiece() {
 function findShadowPieceLimit() {
     let nextSpotOpen = true
     model.currentPiece.shadowCoors.forEach((coorPair)=> {
-        if(getDomBox({x: coorPair.x, y: coorPair.y + 1})) {
-            // if(getDomBox({x: coorPair.x, y: coorPair.y + 1}).dataset.pieceSet) {
-            //     nextSpotOpen = false
-            // }
-        } else {
+        if(!getDomBox({x: coorPair.x, y: coorPair.y + 1}) || getDomBox({x: coorPair.x, y: coorPair.y + 1}).dataset.pieceSet) {
             nextSpotOpen = false
         }
     })
@@ -138,13 +135,15 @@ function movePieceDownOneUnit() {
     } else {
         model.currentPiece.coors.forEach(coorPair => {
             getDomBox(coorPair).style.background = model.currentPiece.color
-            getDomBox(coorPair).style.boxShadow = `inset 0px 0px 0px 1px ${model.currentPiece.color}`
             getDomBox(coorPair).dataset.pieceSet = true
             getModelBox(coorPair).set = true
+            getModelBox(coorPair).color = model.currentPiece.color
         })
         checkForScoringRow()
         model.currentPiece.coors = []
         model.currentPiece.prevCoors = []
+        model.currentPiece.shadowCoorsoors = []
+        model.currentPiece.prevShadowCoors = []
         spawnNewPeice()
     }
 }
@@ -172,6 +171,7 @@ function scoreRows() {
     for(let i = 0; i < $cols.length; i++) {
         for(let j = 0; j < $cols[i].children.length; j++) {
             const curBox = getModelBox({ x: i, y: j })
+            const $curBox = getDomBox({ x: i, y: j })
             if(curBox.scorer) {
                 curBox.y = 0
                 curBox.scorer = false
@@ -199,11 +199,11 @@ function scoreRows() {
             const $curBox = $cols[i].children[j]
             curBox.x = i
             curBox.y = j
-            $curBox.style.background = 'white'
-            $curBox.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
+            $curBox.style.background = 'black'
+            $curBox.removeAttribute("data-piece-set")
             if(curBox.set) {
-                $curBox.style.background = 'red'
-                $curBox.style.boxShadow = 'inset 0px 0px 0px 1px red'
+                $curBox.style.background = curBox.color
+                $curBox.dataset.pieceSet = true
             }
         }
     }
@@ -244,8 +244,7 @@ function rotatePiece() {
 function pieceInWay(coors) {
     let cnd = false
     coors.forEach(coorPair => {
-        if(getDomBox(coorPair).style.background == 'idk') {
-            console.log('wegwegeg')
+        if(getDomBox(coorPair).dataset.pieceSet) {
             cnd = true
         }
     })
@@ -284,25 +283,21 @@ function drawPiece() {
     model.currentPiece.shadowCoors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.background = colors.shadow
-        $el.style.boxShadow = `inset 0px 0px 0px 1px ${colors.shadow}`
     })
     model.currentPiece.coors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.background = model.currentPiece.color
-        $el.style.boxShadow = `inset 0px 0px 0px 1px ${model.currentPiece.color}`
     })
 }
 
 function erasePieceAtPrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
-        $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
-        $el.style.background = 'white'
+        $el.style.background = 'black'
     })
     model.currentPiece.prevShadowCoors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
-        $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
-        $el.style.background = 'white'
+        $el.style.background = 'black'
     })
 }
 

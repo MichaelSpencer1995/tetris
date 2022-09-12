@@ -1,12 +1,13 @@
 body {
-  background: #eee;
+  background: rgb(0, 0, 0);
   /* cursor: none; */
 }
 
 .gameboard {
   width: 500px;
   height: 750px;
-  background: #fff;
+  background: black;
+  border: white 1px solid;
   margin: 0 auto;
   margin-top: 65px;
   display: flex;
@@ -18,10 +19,11 @@ body {
 #start {
   font-weight: 700;
   font-size: 33px;
+  color: white;
 }
 
 .box-main {
-  box-shadow: inset 0px 0px 0px 1px #ddd;
+  /* box-shadow: inset 0px 0px 0px 1px #ddd; */
 }
 
 #score {
