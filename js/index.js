@@ -1,4 +1,5 @@
 function onPageLoad() {
+    settings.dimensions.width = settings.dev ? 5 : 12
     $gameBoard.style.width = settings.dimensions.width * settings.dimensions.unit + 'px'
     $gameBoard.style.height = settings.dimensions.height * settings.dimensions.unit + 'px'
 }

@@ -1,7 +1,8 @@
 const settings = {
+    dev: false,
     dimensions: {
         unit: 40,
-        width: 5,
+        width: 12,
         height: 20,
     },
     speed: {
