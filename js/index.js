@@ -71,8 +71,6 @@ function resetRotationIndexes() {
 }
 
 function spawnNewPeice() {
-    model.score++
-    $score.innerHTML = model.score
     resetOrigin()
     resetRotationIndexes()
     const ranIndx = Math.floor(Math.random() * pieces.length)
@@ -156,22 +154,37 @@ function checkForScoringRow() {
             potentialScorers[group].forEach(scorer => scorers.push(scorer))
         }
     }
+    
     if(scorers.length != 0) {
         scorers.forEach(scorer => {
             getModelBox(scorer).scorer = true
         })
-        scoreRows()
+        scoreRows(scorers.length / settings.dimensions.width)
     }
 }
 
-function scoreRows() {
+function scoreRows(x) {
     clearInterval(mainInterval)
     $cols = document.getElementsByClassName('col')
+
+
+    if(x == 1) {
+        model.score = model.score + 100
+    }
+    if(x == 2) {
+        model.score = model.score + 350
+    }
+    if(x == 3) {
+        model.score = model.score + 750
+    }
+    if(x == 4) {
+        model.score = model.score + 2000
+    }
+    $score.innerHTML = model.score
 
     for(let i = 0; i < $cols.length; i++) {
         for(let j = 0; j < $cols[i].children.length; j++) {
             const curBox = getModelBox({ x: i, y: j })
-            const $curBox = getDomBox({ x: i, y: j })
             if(curBox.scorer) {
                 curBox.y = 0
                 curBox.scorer = false
@@ -179,7 +192,6 @@ function scoreRows() {
             }
         }
     }
-
 
     model.boxes.sort((a, b) => (a.y > b.y) ? 1 : -1)
     model.boxes.sort((a, b) => (a.x > b.x) ? 1 : -1)
