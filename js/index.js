@@ -94,6 +94,9 @@ function spawnNewPeice() {
     drawCurrentPiece()
 }
 
+function setShadowPiece() {
+    
+}
 
 function applyGravityToPiece() {
     mainInterval = setInterval(movePieceDownOneUnit, settings.speed.regular)

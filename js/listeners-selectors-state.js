@@ -7,6 +7,7 @@ let $cols
 let wHeld, aHeld, sHeld, dHeld
 let mainInterval
 let startGame = true
+let controlsLocked = true
 
 const model = {
     score: 0,
@@ -25,7 +26,9 @@ const model = {
 
 document.addEventListener('keydown', (e) => {
     if(e.keyCode == 65) {
-        aHeld = true
+        if(controlsLocked) {
+            return
+        }
         if(legalMove(model.currentPiece.coors, 'left')) {
             setPrevPosInModel()
             model.currentPiece.coors.forEach(coorPair => {
@@ -37,7 +40,9 @@ document.addEventListener('keydown', (e) => {
         }
     }
     if(e.keyCode == 68) {
-        dHeld = true
+        if(controlsLocked) {
+            return
+        }
         if(legalMove(model.currentPiece.coors, 'right')) {
             setPrevPosInModel()
             model.currentPiece.coors.forEach(coorPair => {
@@ -48,8 +53,8 @@ document.addEventListener('keydown', (e) => {
             drawCurrentPiece()
         }
     }
-    if(e.keyCode == 83) {if
-        (sHeld) {
+    if(e.keyCode == 83) {
+        if(sHeld || controlsLocked) {
             return
         } else {
             sHeld = true
@@ -58,6 +63,7 @@ document.addEventListener('keydown', (e) => {
     }
     if(e.keyCode == 87) {
         if(startGame) {
+            controlsLocked = false
             if(settings.dimensions.width < 5 || settings.dimensions.height < 7) {
                 return console.error('invalid gameboard dimensions')
             }
@@ -72,6 +78,9 @@ document.addEventListener('keydown', (e) => {
                 rotatePiece()
             }
         }
+    }
+    if(e.keyCode == 32) {
+        console.log('pop piece')
     }
 })
 
