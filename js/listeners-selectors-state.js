@@ -16,7 +16,9 @@ const model = {
         type: null,
         color: null,
         coors: [],
-        prevCoors: []
+        prevCoors: [],
+        shadowCoors: [],
+        prevShadowCoors: []
     },
     rotOrigin: {
         x: settings.dimensions.width % 2 != 0 ? settings.dimensions.width / 2 + 0.5 : settings.dimensions.width / 2,
@@ -35,8 +37,9 @@ document.addEventListener('keydown', (e) => {
                 coorPair.x--
             })
             model.rotOrigin.x--
-            eraseCurrentPiecePrevPos()
-            drawCurrentPiece()
+            erasePieceAtPrevPos()
+            setShadowPiece()
+            drawPiece()
         }
     }
     if(e.keyCode == 68) {
@@ -49,8 +52,9 @@ document.addEventListener('keydown', (e) => {
                 coorPair.x++
             })
             model.rotOrigin.x++
-            eraseCurrentPiecePrevPos()
-            drawCurrentPiece()
+            erasePieceAtPrevPos()
+            setShadowPiece()
+            drawPiece()
         }
     }
     if(e.keyCode == 83) {

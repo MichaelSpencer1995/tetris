@@ -166,7 +166,7 @@ function CoordinatePair(x, y) {
 const pieces = [
     {
         shape: 'Line',
-        color: 'green',
+        color: colors.line,
         rotData: {
             rot: 0,
             rots: [
@@ -177,7 +177,7 @@ const pieces = [
     },
     {
         shape: 'T',
-        color: 'orange',
+        color: colors.t,
         rotData: {
             rot: 0,
             rots: [
@@ -194,7 +194,7 @@ const pieces = [
     },
     {
         shape: 'Square',
-        color: 'blue',
+        color: colors.square,
         rotData: {
             rot: 0,
             rots: [
@@ -204,7 +204,7 @@ const pieces = [
     },
     {
         shape: 'L',
-        color: 'purple',
+        color: colors.l,
         rotData: {
             rot: 0,
             rots: [
@@ -217,7 +217,7 @@ const pieces = [
     },
     {
         shape: 'Backwards L',
-        color: '#ffe022',
+        color: colors.backwardsL,
         rotData: {
             rot: 0,
             rots: [
@@ -230,7 +230,7 @@ const pieces = [
     },
     {
         shape: 'Z',
-        color: 'black',
+        color: colors.z,
         rotData: {
             rot: 0,
             rots: [
@@ -241,7 +241,7 @@ const pieces = [
     },
     {
         shape: 'N',
-        color: '#ff6983',
+        color: colors.n,
         rotData: {
             rot: 0,
             rots: [

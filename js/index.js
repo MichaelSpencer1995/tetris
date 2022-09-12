@@ -91,11 +91,36 @@ function spawnNewPeice() {
             break
         }
     }
-    drawCurrentPiece()
+    setShadowPiece()
+    drawPiece()
 }
 
 function setShadowPiece() {
-    
+    model.currentPiece.shadowCoors = []
+    model.currentPiece.coors.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.shadowCoors.push(val)
+    })
+    findShadowPieceLimit()
+}
+
+function findShadowPieceLimit() {
+    let nextSpotOpen = true
+    model.currentPiece.shadowCoors.forEach((coorPair)=> {
+        if(getDomBox({x: coorPair.x, y: coorPair.y + 1})) {
+            // if(getDomBox({x: coorPair.x, y: coorPair.y + 1}).dataset.pieceSet) {
+            //     nextSpotOpen = false
+            // }
+        } else {
+            nextSpotOpen = false
+        }
+    })
+    if(nextSpotOpen) {
+        model.currentPiece.shadowCoors.forEach((coorPair, i)=> {
+            coorPair.y++
+        })
+        findShadowPieceLimit()
+    }
 }
 
 function applyGravityToPiece() {
@@ -108,8 +133,8 @@ function movePieceDownOneUnit() {
         setPrevPosInModel()
         model.currentPiece.coors.forEach(coorPair => coorPair.y++)
         model.rotOrigin.y++
-        eraseCurrentPiecePrevPos()
-        drawCurrentPiece()
+        erasePieceAtPrevPos()
+        drawPiece()
     } else {
         model.currentPiece.coors.forEach(coorPair => {
             getDomBox(coorPair).style.background = model.currentPiece.color
@@ -211,8 +236,9 @@ function rotatePiece() {
             model.currentPiece.coors.push(val)
         })
     }
-    eraseCurrentPiecePrevPos()
-    drawCurrentPiece()
+    erasePieceAtPrevPos()
+    setShadowPiece()
+    drawPiece()
 }
 
 function pieceInWay(coors) {
@@ -254,7 +280,12 @@ function setSpecialRotCnds(coors) {
     return
 }
 
-function drawCurrentPiece() {
+function drawPiece() {
+    model.currentPiece.shadowCoors.forEach(coorPair => {
+        const $el = getDomBox(coorPair)
+        $el.style.background = colors.shadow
+        $el.style.boxShadow = `inset 0px 0px 0px 1px ${colors.shadow}`
+    })
     model.currentPiece.coors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.background = model.currentPiece.color
@@ -262,8 +293,13 @@ function drawCurrentPiece() {
     })
 }
 
-function eraseCurrentPiecePrevPos() {
+function erasePieceAtPrevPos() {
     model.currentPiece.prevCoors.forEach(coorPair => {
+        const $el = getDomBox(coorPair)
+        $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
+        $el.style.background = 'white'
+    })
+    model.currentPiece.prevShadowCoors.forEach(coorPair => {
         const $el = getDomBox(coorPair)
         $el.style.boxShadow = 'inset 0px 0px 0px 1px #ddd'
         $el.style.background = 'white'
@@ -321,6 +357,10 @@ function setPrevPosInModel() {
     model.currentPiece.coors.forEach((v) => {
         const val = (typeof v === 'object') ? Object.assign({}, v) : v
         model.currentPiece.prevCoors.push(val)
+    })
+    model.currentPiece.shadowCoors.forEach((v) => {
+        const val = (typeof v === 'object') ? Object.assign({}, v) : v
+        model.currentPiece.prevShadowCoors.push(val)
     })
 }
 
