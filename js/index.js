@@ -164,9 +164,7 @@ function checkForScoringRow() {
 }
 
 function scoreRows(x) {
-    clearInterval(mainInterval)
     $cols = document.getElementsByClassName('col')
-
 
     if(x == 1) {
         model.score = model.score + 100
