@@ -2,6 +2,7 @@ function onPageLoad() {
     settings.dimensions.width = settings.dev ? 5 : 12
     $gameBoard.style.width = settings.dimensions.width * settings.dimensions.unit + 'px'
     $gameBoard.style.height = settings.dimensions.height * settings.dimensions.unit + 'px'
+    $highScore.innerHTML = currentHighScore
 }
 
 function launch() {
@@ -180,6 +181,12 @@ function scoreRows(x) {
         model.score = model.score + 2000
     }
     $score.innerHTML = model.score
+
+    if(model.score > currentHighScore) {
+        localStorage.setItem('highscore', model.score)
+        $highScore.innerHTML = model.score
+    }
+
 
     for(let i = 0; i < $cols.length; i++) {
         for(let j = 0; j < $cols[i].children.length; j++) {

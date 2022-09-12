@@ -1,5 +1,5 @@
 const settings = {
-    dev: false,
+    // dev: true,
     dimensions: {
         unit: 40,
         width: 12,

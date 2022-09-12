@@ -1,6 +1,8 @@
 const $start = document.getElementById('start')
 const $gameBoard = document.getElementsByClassName('gameboard')[0]
 const $score = document.getElementById('score')
+const $highScore = document.getElementById('high-score')
+let currentHighScore = localStorage.getItem('highscore') || 0
 
 let $cols
 
